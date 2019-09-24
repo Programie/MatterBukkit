@@ -2,7 +2,7 @@ package com.selfcoders.matterbukkit;
 
 import com.selfcoders.matterbukkit.matterbridgeapi.API;
 import com.selfcoders.matterbukkit.matterbridgeapi.Message;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -45,13 +45,13 @@ class EventListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        ConfigurationSection config = plugin.getConfig().getConfigurationSection("outgoing");
+        FileConfiguration config = plugin.getConfig();
 
-        if (!config.getBoolean("death.enable")) {
+        if (!config.getBoolean("outgoing.death.enable")) {
             return;
         }
 
-        String text = config.getString("death.format");
+        String text = config.getString("outgoing.death.format");
 
         text = text.replaceAll("%username%", event.getEntity().getName())
                 .replaceAll("%death-message%", event.getDeathMessage());
@@ -85,9 +85,9 @@ class EventListener implements Listener {
             return;
         }
 
-        ConfigurationSection config = plugin.getConfig().getConfigurationSection("outgoing");
+        FileConfiguration config = plugin.getConfig();
 
-        if (!config.getBoolean("advancement.enable")) {
+        if (!config.getBoolean("outgoing.advancement.enable")) {
             return;
         }
 
@@ -102,7 +102,7 @@ class EventListener implements Listener {
                     .collect(Collectors.joining(" "));
         }
 
-        String text = config.getString("advancement.format");
+        String text = config.getString("outgoing.advancement.format");
 
         text = text.replaceAll("%playername%", event.getPlayer().getName())
                 .replaceAll("%advancement%", advancementName);
@@ -116,9 +116,7 @@ class EventListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        ConfigurationSection config = plugin.getConfig().getConfigurationSection("outgoing");
-
-        if (!config.getBoolean("join.enable")) {
+        if (!plugin.getConfig().getBoolean("outgoing.join.enable")) {
             return;
         }
 
@@ -131,9 +129,7 @@ class EventListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        ConfigurationSection config = plugin.getConfig().getConfigurationSection("outgoing");
-
-        if (!config.getBoolean("quit.enable")) {
+        if (!plugin.getConfig().getBoolean("outgoing.quit.enable")) {
             return;
         }
 
