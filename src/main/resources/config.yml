@@ -1,0 +1,23 @@
+bridge:
+  url: http://localhost:4242
+  gateway: gateway1
+
+incoming:
+  enable: true
+  format: "[%username%] %text%"
+
+outgoing:
+  system-username: "System"
+
+  chat:
+    enable: true
+  death:
+    enable: true
+    format: "%death-message%"
+  advancement:
+    enable: true
+    format: "%playername% has made the advancement [%advancement%]"
+  join:
+    enable: true
+  quit:
+    enable: true

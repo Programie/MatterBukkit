@@ -1,0 +1,29 @@
+image: maven:3-jdk-8
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2"
+
+cache:
+  paths:
+    - .m2/
+
+build:
+  stage: build
+  script: mvn compile
+
+test:
+  stage: test
+  script: mvn test
+  dependencies:
+    - build
+
+release:
+  stage: deploy
+  script: mvn package
+  dependencies:
+    - test
+  artifacts:
+    paths:
+      - target/MatterBukkit.jar
+  only:
+    - tags
