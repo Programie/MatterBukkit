@@ -36,7 +36,7 @@ public class API {
         messageJson.addProperty("username", message.getUsername());
         messageJson.addProperty("text", message.getText());
 
-        httpPost.setEntity(new StringEntity(gson.toJson(messageJson), ContentType.create("application/json")));
+        httpPost.setEntity(new StringEntity(gson.toJson(messageJson), "application/json", "utf-8"));
 
         HttpResponse response = httpClient.execute(httpPost);
 
