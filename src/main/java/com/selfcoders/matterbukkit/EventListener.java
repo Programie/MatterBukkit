@@ -7,10 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerAdvancementDoneEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -106,6 +103,38 @@ class EventListener implements Listener {
 
         text = text.replaceAll("%playername%", event.getPlayer().getName())
                 .replaceAll("%advancement%", advancementName);
+
+        try {
+            matterBridgeApi.sendMessage(text);
+        } catch (IOException exception) {
+            plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerLevelChange(PlayerLevelChangeEvent event) {
+        int oldLevel = event.getOldLevel();
+        int newLevel = event.getNewLevel();
+
+        if (newLevel < oldLevel) {
+            return;
+        }
+
+        FileConfiguration config = plugin.getConfig();
+
+        if (!config.getBoolean("outgoing.level-up.enable")) {
+            return;
+        }
+
+        if (newLevel < config.getInt("outgoing.level-up.minimum-level")) {
+            return;
+        }
+
+        String text = config.getString("outgoing.level-up.format");
+
+        text = text.replaceAll("%playername%", event.getPlayer().getName())
+                .replaceAll("%old-level%", String.valueOf(oldLevel))
+                .replaceAll("%new-level%", String.valueOf(newLevel));
 
         try {
             matterBridgeApi.sendMessage(text);

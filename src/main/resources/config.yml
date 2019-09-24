@@ -17,6 +17,10 @@ outgoing:
   advancement:
     enable: true
     format: "%playername% has made the advancement [%advancement%]"
+  level-up:
+    enable: true
+    minimum-level: 0
+    format: "%playername% reached level %new-level%"
   join:
     enable: true
   quit:
