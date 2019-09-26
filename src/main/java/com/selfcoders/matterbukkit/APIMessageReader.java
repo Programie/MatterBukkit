@@ -63,8 +63,13 @@ class APIMessageReader {
                         if (line != null) {
                             Message message = gson.fromJson(line, Message.class);
 
-                            // event is empty is this is a chat message
+                            // Chat messages have an empty event property, everything else should be ignored (e.g. "api_connected")
                             if (!message.getEvent().isEmpty()) {
+                                continue;
+                            }
+
+                            // Skip messages with an empty text property (e.g. in case a picture or file has been sent)
+                            if (message.getText().isEmpty()) {
                                 continue;
                             }
 
