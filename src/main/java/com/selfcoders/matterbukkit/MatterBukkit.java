@@ -12,9 +12,14 @@ public class MatterBukkit extends JavaPlugin {
         saveDefaultConfig();
 
         ConfigurationSection bridgeConfig = getConfig().getConfigurationSection("bridge");
+
+        String url = bridgeConfig.getString("url");
+        String gateway = bridgeConfig.getString("gateway");
+        String token = bridgeConfig.getString("token");
+
         String systemUsername = getConfig().getString("outgoing.system-username");
 
-        API matterBridgeApi = new API(bridgeConfig.getString("url"), bridgeConfig.getString("gateway"), systemUsername);
+        API matterBridgeApi = new API(url, gateway, systemUsername, token);
 
         getServer().getPluginManager().registerEvents(new EventListener(this, matterBridgeApi), this);
 

@@ -3,6 +3,7 @@ package com.selfcoders.matterbukkit.matterbridgeapi;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -16,17 +17,23 @@ public class API {
     private final String url;
     private final String gateway;
     private final String systemUsername;
+    private final String token;
 
-    public API(String url, String gateway, String systemUsername) {
+    public API(String url, String gateway, String systemUsername, String token) {
         this.url = url;
         this.gateway = gateway;
         this.systemUsername = systemUsername;
+        this.token = token;
     }
 
     public void sendMessage(Message message) throws IOException {
         DefaultHttpClient httpClient = new DefaultHttpClient();
 
         HttpPost httpPost = new HttpPost(url + "/api/message");
+
+        if (token != null && !token.isEmpty()) {
+            httpPost.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+        }
 
         Gson gson = new Gson();
 
@@ -38,6 +45,12 @@ public class API {
         httpPost.setEntity(new StringEntity(gson.toJson(messageJson), "application/json", "utf-8"));
 
         HttpResponse response = httpClient.execute(httpPost);
+
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        if (statusCode != 200) {
+            throw new APIException(response.getStatusLine().getReasonPhrase());
+        }
 
         HttpEntity entity = response.getEntity();
 
@@ -81,7 +94,17 @@ public class API {
 
         HttpGet httpGet = new HttpGet(url + path);
 
+        if (token != null && !token.isEmpty()) {
+            httpGet.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+        }
+
         HttpResponse response = httpClient.execute(httpGet);
+
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        if (statusCode != 200) {
+            throw new APIException(response.getStatusLine().getReasonPhrase());
+        }
 
         return response.getEntity();
     }
