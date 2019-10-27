@@ -20,6 +20,7 @@ outgoing:
   level-up:
     enable: true
     minimum-level: 0
+    modulus: 5
     format: "%playername% reached level %new-level%"
   join:
     enable: true

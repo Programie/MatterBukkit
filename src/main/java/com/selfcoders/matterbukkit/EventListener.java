@@ -130,6 +130,11 @@ class EventListener implements Listener {
             return;
         }
 
+        int modulus = config.getInt("outgoing.level-up.modulus");
+        if (modulus > 0 && newLevel % modulus != 0) {
+            return;
+        }
+
         String text = config.getString("outgoing.level-up.format");
 
         text = text.replaceAll("%playername%", event.getPlayer().getName())
