@@ -35,6 +35,8 @@ public class MatterBukkit extends JavaPlugin {
                 }
             }, 100, 100);
         }
+
+        getLogger().info("MatterBukkit enabled");
     }
 
     @Override
@@ -42,5 +44,7 @@ public class MatterBukkit extends JavaPlugin {
         if (apiMessageReader != null) {
             apiMessageReader.stop();
         }
+
+        getLogger().info("MatterBukkit disabled");
     }
 }
