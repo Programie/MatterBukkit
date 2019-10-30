@@ -53,39 +53,48 @@ class APIMessageReader {
 
             thread = new Thread(null, () -> {
                 String line;
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
-                Gson gson = new Gson();
+                try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream))) {
+                    Gson gson = new Gson();
 
-                try {
-                    while (true) {
-                        line = bufferedReader.readLine();
-                        if (line != null) {
-                            Message message = gson.fromJson(line, Message.class);
+                    try {
+                        while (true) {
+                            line = bufferedReader.readLine();
+                            if (line != null) {
+                                Message message = gson.fromJson(line, Message.class);
 
-                            // Chat messages have an empty event property, everything else should be ignored (e.g. "api_connected")
-                            if (!message.getEvent().isEmpty()) {
-                                continue;
-                            }
+                                // Chat messages have an empty event property, everything else should be ignored (e.g. "api_connected")
+                                if (!message.getEvent().isEmpty()) {
+                                    continue;
+                                }
 
-                            // Skip messages with an empty text property (e.g. in case a picture or file has been sent)
-                            if (message.getText().isEmpty()) {
-                                continue;
-                            }
+                                // Skip messages with an empty text property (e.g. in case a picture or file has been sent)
+                                if (message.getText().isEmpty()) {
+                                    continue;
+                                }
 
-                            String messageString = config.getString("incoming.format");
+                                String messageString = config.getString("incoming.format");
 
-                            messageString = messageString.replaceAll("%username%", message.getUsername())
-                                    .replaceAll("%text%", message.getText());
+                                messageString = messageString.replaceAll("%username%", message.getUsername())
+                                        .replaceAll("%text%", message.getText());
 
-                            logger.info("Incoming message: " + messageString);
+                                logger.info("Incoming message: " + messageString);
 
-                            for (Player player : plugin.getServer().getOnlinePlayers()) {
-                                player.sendMessage(messageString);
+                                for (Player player : plugin.getServer().getOnlinePlayers()) {
+                                    player.sendMessage(messageString);
+                                }
                             }
                         }
+                    } catch (SocketException exception) {
+                        logger.info(exception.toString());
+                    } catch (IOException exception) {
+                        logger.log(Level.SEVERE, exception.toString(), exception);
+                    } finally {
+                        try {
+                            stream.close();
+                        } catch (IOException exception) {
+                            logger.log(Level.SEVERE, exception.toString(), exception);
+                        }
                     }
-                } catch (SocketException exception) {
-                    logger.info(exception.toString());
                 } catch (IOException exception) {
                     logger.log(Level.SEVERE, exception.toString(), exception);
                 }
