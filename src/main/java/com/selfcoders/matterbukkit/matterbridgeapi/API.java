@@ -10,7 +10,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
@@ -57,7 +56,7 @@ public class API {
     }
 
     public void sendMessage(Message message) throws IOException {
-        DefaultHttpClient httpClient = new DefaultHttpClient();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
 
         HttpPost httpPost = new HttpPost(url + "/api/message");
 
