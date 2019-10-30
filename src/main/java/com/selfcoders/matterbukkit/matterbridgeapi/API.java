@@ -7,6 +7,7 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -18,6 +19,32 @@ public class API {
     private final String gateway;
     private final String systemUsername;
     private final String token;
+
+    public class Response {
+        private HttpUriRequest httpUriRequest;
+        private HttpEntity httpEntity;
+
+        Response(HttpUriRequest httpUriRequest, HttpEntity httpEntity) {
+            this.httpUriRequest = httpUriRequest;
+            this.httpEntity = httpEntity;
+        }
+
+        public HttpUriRequest getHttpUriRequest() {
+            return httpUriRequest;
+        }
+
+        public HttpEntity getHttpEntity() {
+            return httpEntity;
+        }
+
+        public InputStream getContent() throws IOException {
+            if (httpEntity == null) {
+                return null;
+            }
+
+            return httpEntity.getContent();
+        }
+    }
 
     public API(String url, String gateway, String systemUsername, String token) {
         this.url = url;
@@ -70,7 +97,8 @@ public class API {
     }
 
     public void clearMessages() throws IOException {
-        HttpEntity entity = get("/api/messages");
+        Response response = get("/api/messages");
+        HttpEntity entity = response.getHttpEntity();
 
         if (entity == null) {
             return;
@@ -79,17 +107,11 @@ public class API {
         entity.consumeContent();
     }
 
-    public InputStream streamMessages() throws IOException {
-        HttpEntity entity = get("/api/stream");
-
-        if (entity == null) {
-            return null;
-        }
-
-        return entity.getContent();
+    public Response streamMessages() throws IOException {
+        return get("/api/stream");
     }
 
-    private HttpEntity get(String path) throws IOException {
+    private Response get(String path) throws IOException {
         DefaultHttpClient httpClient = new DefaultHttpClient();
 
         HttpGet httpGet = new HttpGet(url + path);
@@ -106,6 +128,6 @@ public class API {
             throw new APIException(response.getStatusLine().getReasonPhrase());
         }
 
-        return response.getEntity();
+        return new Response(httpGet, response.getEntity());
     }
 }

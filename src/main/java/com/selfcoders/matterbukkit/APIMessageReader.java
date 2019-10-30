@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +19,7 @@ class APIMessageReader {
     private final MatterBukkit plugin;
     private final FileConfiguration config;
     private final Logger logger;
-    private InputStream stream = null;
+    private API.Response response = null;
     private Thread thread = null;
 
     APIMessageReader(API api, MatterBukkit plugin) {
@@ -41,7 +42,9 @@ class APIMessageReader {
             // Ensure old messages are removed
             api.clearMessages();
 
-            stream = api.streamMessages();
+            response = api.streamMessages();
+
+            InputStream stream = response.getContent();
 
             if (stream == null) {
                 logger.severe("Unable to open API stream");
@@ -55,10 +58,6 @@ class APIMessageReader {
 
                 try {
                     while (true) {
-                        if (!bufferedReader.ready()) {
-                            Thread.sleep(100);
-                        }
-
                         line = bufferedReader.readLine();
                         if (line != null) {
                             Message message = gson.fromJson(line, Message.class);
@@ -85,9 +84,10 @@ class APIMessageReader {
                             }
                         }
                     }
+                } catch (SocketException exception) {
+                    logger.info(exception.toString());
                 } catch (IOException exception) {
                     logger.log(Level.SEVERE, exception.toString(), exception);
-                } catch (InterruptedException ignored) {
                 }
             }, "MatterBridge-API-Listener");
 
@@ -98,21 +98,17 @@ class APIMessageReader {
     }
 
     void stop() {
-        if (thread != null) {
-            thread.interrupt();
-
-            thread = null;
+        if (response != null) {
+            response.getHttpUriRequest().abort();
+            response = null;
         }
 
-        if (stream != null) {
-            try {
-                stream.close();
-            } catch (IOException exception) {
-                logger.log(Level.SEVERE, exception.toString(), exception);
-            }
-
-            stream = null;
+        try {
+            thread.join();
+        } catch (InterruptedException ignored) {
         }
+
+        thread = null;
     }
 
     void restart() {
