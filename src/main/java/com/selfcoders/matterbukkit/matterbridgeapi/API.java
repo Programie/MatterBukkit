@@ -10,6 +10,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,7 +86,7 @@ public class API {
             return;
         }
 
-        entity.consumeContent();
+        EntityUtils.consume(entity);
     }
 
     public void sendMessage(String username, String text) throws IOException {
@@ -104,7 +105,7 @@ public class API {
             return;
         }
 
-        entity.consumeContent();
+        EntityUtils.consume(entity);
     }
 
     public Response streamMessages() throws IOException {
