@@ -4,10 +4,12 @@ public class Message {
     private String event;
     private String text;
     private String username;
+    private String avatar;
 
-    public Message(String username, String text) {
+    public Message(String username, String text, String avatar) {
         this.username = username;
         this.text = text;
+        this.avatar = avatar;
     }
 
     public String getEvent() {
@@ -20,5 +22,9 @@ public class Message {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 }

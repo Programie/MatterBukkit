@@ -20,6 +20,7 @@ public class API {
     private final String url;
     private final String gateway;
     private final String systemUsername;
+    private final String systemAvatarUrl;
     private final String token;
 
     public class Response {
@@ -48,10 +49,11 @@ public class API {
         }
     }
 
-    public API(String url, String gateway, String systemUsername, String token) {
+    public API(String url, String gateway, String systemUsername, String systemAvatarUrl, String token) {
         this.url = url;
         this.gateway = gateway;
         this.systemUsername = systemUsername;
+        this.systemAvatarUrl = systemAvatarUrl;
         this.token = token;
     }
 
@@ -70,6 +72,7 @@ public class API {
         messageJson.addProperty("gateway", gateway);
         messageJson.addProperty("username", message.getUsername());
         messageJson.addProperty("text", message.getText());
+        messageJson.addProperty("avatar", message.getAvatar());
 
         httpPost.setEntity(new StringEntity(gson.toJson(messageJson), "application/json", "utf-8"));
 
@@ -90,12 +93,12 @@ public class API {
         EntityUtils.consume(entity);
     }
 
-    public void sendMessage(String username, String text) throws IOException {
-        sendMessage(new Message(username, text));
+    public void sendMessage(String username, String text, String avatarUrl) throws IOException {
+        sendMessage(new Message(username, text, avatarUrl));
     }
 
     public void sendMessage(String text) throws IOException {
-        sendMessage(systemUsername, text);
+        sendMessage(systemUsername, text, systemAvatarUrl);
     }
 
     public void clearMessages() throws IOException {

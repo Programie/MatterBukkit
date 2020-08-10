@@ -17,11 +17,13 @@ public class MatterBukkit extends JavaPlugin {
         String gateway = bridgeConfig.getString("gateway");
         String token = bridgeConfig.getString("token");
 
+        String avatarUrl = getConfig().getString("outgoing.avatar-url");
+        String systemAvatarUrl = getConfig().getString("outgoing.system-avatar-url");
         String systemUsername = getConfig().getString("outgoing.system-username");
 
-        API matterBridgeApi = new API(url, gateway, systemUsername, token);
+        API matterBridgeApi = new API(url, gateway, systemUsername, systemAvatarUrl, token);
 
-        getServer().getPluginManager().registerEvents(new EventListener(this, matterBridgeApi), this);
+        getServer().getPluginManager().registerEvents(new EventListener(this, matterBridgeApi, avatarUrl), this);
 
         if (getConfig().getBoolean("incoming.enable")) {
             apiMessageReader = new APIMessageReader(matterBridgeApi, this);

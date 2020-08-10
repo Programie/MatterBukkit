@@ -4,6 +4,7 @@ import com.selfcoders.matterbukkit.matterbridgeapi.API;
 import com.selfcoders.matterbukkit.matterbridgeapi.Message;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -18,11 +19,13 @@ import java.util.stream.Collectors;
 class EventListener implements Listener {
     private final MatterBukkit plugin;
     private final API matterBridgeApi;
+    private final String avatarUrl;
     private final YamlConfiguration advancements;
 
-    EventListener(MatterBukkit plugin, API matterBridgeApi) {
+    EventListener(MatterBukkit plugin, API matterBridgeApi, String avatarUrl) {
         this.plugin = plugin;
         this.matterBridgeApi = matterBridgeApi;
+        this.avatarUrl = avatarUrl;
 
         advancements = YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("advancements.yml")));
     }
@@ -34,7 +37,15 @@ class EventListener implements Listener {
         }
 
         try {
-            matterBridgeApi.sendMessage(new Message(event.getPlayer().getName(), event.getMessage()));
+            Player player = event.getPlayer();
+            String playerAvatarUrl = avatarUrl;
+            if (playerAvatarUrl != null) {
+                playerAvatarUrl = playerAvatarUrl.replaceAll("%playername%", player.getName());
+                playerAvatarUrl = playerAvatarUrl.replaceAll("%uuid%", player.getUniqueId().toString());
+            }
+            plugin.getLogger().log(Level.INFO, playerAvatarUrl);
+
+            matterBridgeApi.sendMessage(new Message(player.getName(), event.getMessage(), playerAvatarUrl));
         } catch (IOException exception) {
             plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
         }
