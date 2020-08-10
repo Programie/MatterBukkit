@@ -112,9 +112,11 @@ class APIMessageReader {
             response = null;
         }
 
-        try {
-            thread.join();
-        } catch (InterruptedException ignored) {
+        if (thread != null) {
+            try {
+                thread.join();
+            } catch (InterruptedException ignored) {
+            }
         }
 
         thread = null;
