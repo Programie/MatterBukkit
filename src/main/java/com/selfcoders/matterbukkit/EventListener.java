@@ -61,7 +61,10 @@ class EventListener implements Listener {
 
         String text = config.getString("outgoing.death.format");
 
-        text = text.replaceAll("%username%", event.getEntity().getName())
+        Player player = event.getEntity();
+
+        text = text.replaceAll("%playername%", player.getName())
+                .replaceAll("%username%", player.getName())
                 .replaceAll("%death-message%", event.getDeathMessage());
 
         try {
