@@ -17,6 +17,11 @@
     <description>Send chat messages from/to MatterBridge</description>
     <url>https://gitlab.com/Programie/MatterBukkit</url>
 
+    <scm>
+        <developerConnection>scm:git:ssh://git@gitlab.com/Programie/MatterBukkit.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <properties>
         <bukkit-api-version>1.12.2</bukkit-api-version>
     </properties>
