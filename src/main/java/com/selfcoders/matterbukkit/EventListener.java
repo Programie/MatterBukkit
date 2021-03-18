@@ -36,6 +36,12 @@ class EventListener implements Listener {
         if (event.isCancelled()) {
             return;
         }
+        
+        FileConfiguration config = plugin.getConfig();
+        if (!config.getBoolean("outgoing.chat.enable")) {
+            return;
+        }
+
 
         try {
             Player player = event.getPlayer();
