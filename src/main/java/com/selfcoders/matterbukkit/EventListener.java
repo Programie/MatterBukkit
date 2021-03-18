@@ -2,6 +2,7 @@ package com.selfcoders.matterbukkit;
 
 import com.selfcoders.matterbukkit.matterbridgeapi.API;
 import com.selfcoders.matterbukkit.matterbridgeapi.Message;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -169,7 +170,7 @@ class EventListener implements Listener {
         }
 
         try {
-            matterBridgeApi.sendMessage(event.getJoinMessage());
+            matterBridgeApi.sendMessage(ChatColor.stripColor(event.getJoinMessage()));
         } catch (IOException exception) {
             plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
         }
@@ -182,7 +183,7 @@ class EventListener implements Listener {
         }
 
         try {
-            matterBridgeApi.sendMessage(event.getQuitMessage());
+            matterBridgeApi.sendMessage(ChatColor.stripColor(event.getQuitMessage()));
         } catch (IOException exception) {
             plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
         }
