@@ -82,6 +82,12 @@ class EventListener implements Listener {
 
     @EventHandler
     public void onPlayerAdvancementDone(PlayerAdvancementDoneEvent event) {
+        FileConfiguration config = plugin.getConfig();
+
+        if (!config.getBoolean("outgoing.advancement.enable")) {
+            return;
+        }
+
         if (event.getAdvancement() == null || event.getAdvancement().getKey().getKey().contains("recipe/") || event.getPlayer() == null) {
             return;
         }
@@ -99,12 +105,6 @@ class EventListener implements Listener {
             return;
         } catch (Exception exception) {
             plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
-            return;
-        }
-
-        FileConfiguration config = plugin.getConfig();
-
-        if (!config.getBoolean("outgoing.advancement.enable")) {
             return;
         }
 
