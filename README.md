@@ -7,7 +7,7 @@ A Minecraft Bukkit plugin which sends chat messages from/to [MatterBridge](https
 
 ## Installation
 
-You can get the latest release from [GitLab](https://gitlab.com/Programie/MatterBukkit/-/jobs/artifacts/master/raw/target/MatterBukkit.jar?job=release).
+You can get the latest release from [GitLab](https://gitlab.com/Programie/MatterBukkit/-/releases) and [CurseForge](https://www.curseforge.com/minecraft/bukkit-plugins/matterbukkit).
 
 ## Build
 
