@@ -5,6 +5,7 @@ A Minecraft Bukkit plugin which sends chat messages from/to [MatterBridge](https
 [![pipeline status](https://gitlab.com/Programie/MatterBukkit/badges/master/pipeline.svg)](https://gitlab.com/Programie/MatterBukkit/commits/master)
 [![download from GitLab](https://img.shields.io/badge/download-Releases-blue?logo=gitlab)](https://gitlab.com/Programie/MatterBukkit/-/releases)
 [![download from CurseForge](https://img.shields.io/badge/download-CurseForge-blue?logo=curseforge)](https://www.curseforge.com/minecraft/bukkit-plugins/matterbukkit)
+[![view on Website](https://img.shields.io/badge/view-Website-blue)](https://selfcoders.com/projects/matterbukkit)
 
 ## Build
 
