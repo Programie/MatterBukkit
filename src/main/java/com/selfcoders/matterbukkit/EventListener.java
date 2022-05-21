@@ -49,7 +49,6 @@ class EventListener implements Listener {
                 playerAvatarUrl = playerAvatarUrl.replaceAll("%playername%", player.getName());
                 playerAvatarUrl = playerAvatarUrl.replaceAll("%uuid%", player.getUniqueId().toString());
             }
-            plugin.getLogger().log(Level.INFO, playerAvatarUrl);
 
             matterBridgeApi.sendMessage(new Message(player.getName(), event.getMessage(), playerAvatarUrl));
         } catch (IOException exception) {
