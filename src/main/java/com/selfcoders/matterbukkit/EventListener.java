@@ -91,7 +91,7 @@ class EventListener implements Listener {
             return;
         }
 
-        // Taken from DiscordSRV
+        // Taken from DiscordSRV: https://github.com/DiscordSRV/DiscordSRV/blob/v1.26.2/src/main/java/github/scarsz/discordsrv/listeners/PlayerAdvancementDoneListener.java#L108-L117
         try {
             Object craftAdvancement = ((Object) event.getAdvancement()).getClass().getMethod("getHandle").invoke(event.getAdvancement());
             Object advancementDisplay = craftAdvancement.getClass().getMethod("c").invoke(craftAdvancement);
