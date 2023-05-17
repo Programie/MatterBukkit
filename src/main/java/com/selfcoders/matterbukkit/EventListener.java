@@ -103,7 +103,7 @@ class EventListener implements Listener {
         } catch (NullPointerException exception) {
             return;
         } catch (Exception exception) {
-            plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
+            plugin.getLogger().log(Level.SEVERE, "Failed to check whether advancement should be displayed", exception);
             return;
         }
 
