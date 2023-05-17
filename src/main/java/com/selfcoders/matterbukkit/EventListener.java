@@ -104,7 +104,6 @@ class EventListener implements Listener {
             return;
         } catch (Exception exception) {
             plugin.getLogger().log(Level.SEVERE, "Failed to check whether advancement should be displayed", exception);
-            return;
         }
 
         String internalAdvancementName = event.getAdvancement().getKey().getKey();
