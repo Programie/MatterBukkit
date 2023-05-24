@@ -18,7 +18,7 @@ First, install the plugin onto your Bukkit/Spigot/Paper server, and start it to 
 
 Add an API protocol and gateway to `matterbridge.toml`. Here is an example:
 
-```
+```toml
 [api]
 [api.minecraft]
 Token="pasteTokenHere"
