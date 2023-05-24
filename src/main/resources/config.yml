@@ -44,7 +44,7 @@ outgoing:
     enable: true
 
     # Format for advancement messages sent to MatterBridge
-    # Placeholders: %playername% (name of the player), %advancement% (name of the advancement as defined in advancements.yml)
+    # Placeholders: %playername% (name of the player), %advancement% (title of the advancement)
     format: "%playername% has made the advancement [%advancement%]"
 
   level-up:

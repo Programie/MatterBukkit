@@ -23,7 +23,7 @@
     </scm>
 
     <properties>
-        <bukkit-api-version>1.12.2</bukkit-api-version>
+        <bukkit-api-version>1.19</bukkit-api-version>
     </properties>
 
     <repositories>

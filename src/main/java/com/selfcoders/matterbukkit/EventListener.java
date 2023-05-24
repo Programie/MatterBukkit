@@ -3,8 +3,8 @@ package com.selfcoders.matterbukkit;
 import com.selfcoders.matterbukkit.matterbridgeapi.API;
 import com.selfcoders.matterbukkit.matterbridgeapi.Message;
 import org.bukkit.ChatColor;
+import org.bukkit.advancement.AdvancementDisplay;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,23 +12,17 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 class EventListener implements Listener {
     private final MatterBukkit plugin;
     private final API matterBridgeApi;
     private final String avatarUrl;
-    private final YamlConfiguration advancements;
 
     EventListener(MatterBukkit plugin, API matterBridgeApi, String avatarUrl) {
         this.plugin = plugin;
         this.matterBridgeApi = matterBridgeApi;
         this.avatarUrl = avatarUrl;
-
-        advancements = YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("advancements.yml")));
     }
 
     @EventHandler
@@ -87,40 +81,20 @@ class EventListener implements Listener {
             return;
         }
 
-        if (event.getAdvancement() == null || event.getAdvancement().getKey().getKey().contains("recipe/") || event.getPlayer() == null) {
+        AdvancementDisplay advancementDisplay = event.getAdvancement().getDisplay();
+
+        if (advancementDisplay == null) {
             return;
         }
 
-        // Taken from DiscordSRV: https://github.com/DiscordSRV/DiscordSRV/blob/v1.26.2/src/main/java/github/scarsz/discordsrv/listeners/PlayerAdvancementDoneListener.java#L108-L117
-        try {
-            Object craftAdvancement = ((Object) event.getAdvancement()).getClass().getMethod("getHandle").invoke(event.getAdvancement());
-            Object advancementDisplay = craftAdvancement.getClass().getMethod("c").invoke(craftAdvancement);
-            boolean display = (boolean) advancementDisplay.getClass().getMethod("i").invoke(advancementDisplay);
-
-            if (!display) {
-                return;
-            }
-        } catch (NullPointerException exception) {
+        if (!advancementDisplay.shouldAnnounceChat()) {
             return;
-        } catch (Exception exception) {
-            plugin.getLogger().log(Level.SEVERE, "Failed to check whether advancement should be displayed", exception);
-        }
-
-        String internalAdvancementName = event.getAdvancement().getKey().getKey();
-
-        String advancementName = advancements.getString(internalAdvancementName);
-
-        if (advancementName == null) {
-            // Fallback if not defined in advancements.yml: turn "story/shitty_advancement_name" into "Shitty Advancement Name", taken from DiscordSRV
-            advancementName = Arrays.stream(internalAdvancementName.substring(internalAdvancementName.lastIndexOf("/") + 1).toLowerCase().split("_"))
-                    .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
-                    .collect(Collectors.joining(" "));
         }
 
         String text = config.getString("outgoing.advancement.format");
 
         text = text.replaceAll("%playername%", event.getPlayer().getName())
-                .replaceAll("%advancement%", advancementName);
+                .replaceAll("%advancement%", advancementDisplay.getTitle());
 
         try {
             matterBridgeApi.sendMessage(text);
