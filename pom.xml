@@ -10,7 +10,7 @@
 
     <groupId>com.selfcoders</groupId>
     <artifactId>matterbukkit</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.7</version>
     <packaging>jar</packaging>
 
     <name>MatterBukkit</name>
@@ -19,7 +19,7 @@
 
     <scm>
         <developerConnection>scm:git:ssh://git@gitlab.com/Programie/MatterBukkit.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>1.7</tag>
     </scm>
 
     <properties>
