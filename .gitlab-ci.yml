@@ -1,3 +1,6 @@
 include:
   - project: "Programie/Common"
     file: "bukkit-plugins/gitlab-ci.yml"
+
+variables:
+  MODRINTH_PROJECT_ID: m78oYWqM
