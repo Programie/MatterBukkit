@@ -29,7 +29,7 @@
     <repositories>
         <repository>
             <id>common-repo</id>
-            <url>https://gitlab.com/api/v4/projects/Programie%2FCommon/packages/maven</url>
+            <url>https://gitlab.com/api/v4/projects/18622581/packages/maven</url>
         </repository>
     </repositories>
 
