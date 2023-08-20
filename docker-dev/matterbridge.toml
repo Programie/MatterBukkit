@@ -1,0 +1,23 @@
+[api.mc]
+BindAddress="0.0.0.0:4242"
+Buffer=1000
+RemoteNickFormat="[{PROTOCOL}] {NICK}"
+ShowJoinPart=false
+
+[api.console]
+BindAddress="0.0.0.0:4241"
+Buffer=1000
+RemoteNickFormat="[{PROTOCOL}] {NICK}"
+ShowJoinPart=false
+
+[[gateway]]
+name="minecraft"
+enable=true
+
+[[gateway.inout]]
+account="api.mc"
+channel="minecraft"
+
+[[gateway.inout]]
+account="api.console"
+channel="minecraft"

@@ -1,0 +1,70 @@
+bridge:
+  # URL to use to connect to MatterBridge
+  url: http://matterbridge:4242
+
+  # Name of the gateway to which MatterBukkit should connect to
+  gateway: minecraft
+
+  # Token to use for MatterBridge authentication (optional)
+  token: null
+
+incoming:
+  # Print chat messages received from MatterBridge to all players
+  enable: true
+
+  # Format for incoming chat messages
+  # Placeholders: %username% (name of the user who sent the message), %text% (content of the message)
+  format: "[%username%] %text%"
+
+outgoing:
+  # URL to use for avatars in outgoing messages (requires a protocol on the other side of MatterBridge to support avatars)
+  # Placeholders: %playername% (name of the player), %uuid% (UUID of the player)
+  avatar-url: "https://crafatar.com/avatars/%uuid%"
+
+  # URL to use for avatars in outgoing system messages (i.e. death messages, player joins/quits, advancements and level up)
+  system-avatar-url: null
+
+  # Username to use for outgoing system messages
+  system-username: "System"
+
+  chat:
+    # Send player chat messages to MatterBridge
+    enable: true
+
+  death:
+    # Send death messages to MatterBridge
+    enable: true
+
+    # Format for death messages sent to MatterBridge
+    # Placeholders: %playername% (name of the player), %death-message% (the death message as shown to the player, i.e. "Playername was blown up by Creeper")
+    format: "%death-message%"
+
+  advancement:
+    # Send advancement messages to MatterBridge
+    enable: true
+
+    # Format for advancement messages sent to MatterBridge
+    # Placeholders: %playername% (name of the player), %advancement% (title of the advancement)
+    format: "%playername% has made the advancement [%advancement%]"
+
+  level-up:
+    # Send level up messages to MatterBridge
+    enable: true
+
+    # Minimum level to reach before sending a level up message
+    minimum-level: 0
+
+    # Only send level up messages every n levels (i.e. "5" would send a message once the player reached level 5, 10, 15, etc.)
+    modulus: 5
+
+    # Format for level up messages sent to MatterBridge
+    # Placeholders: %playername% (name of the player), %old-level% (the level the player was at before reaching the new level), %new-level% (the reached level)
+    format: "%playername% reached level %new-level%"
+
+  join:
+    # Send join messages to MatterBridge (i.e. "Playername joined the server")
+    enable: true
+
+  quit:
+    # Send quit messages to MatterBridge (i.e. "Playername left the server")
+    enable: true

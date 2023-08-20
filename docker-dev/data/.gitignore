@@ -1,0 +1,9 @@
+*
+!.gitignore
+
+# Do not ignore plugins/MatterBukkit/config.yml
+!plugins
+plugins/*
+!plugins/MatterBukkit
+plugins/MatterBukkit/*
+!plugins/MatterBukkit/config.yml

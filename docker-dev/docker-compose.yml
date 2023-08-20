@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  minecraft:
+    image: itzg/minecraft-server
+    ports:
+      - '25565:25565'
+    networks:
+      - containers
+    volumes:
+      - ./data:/data
+    environment:
+      UID: $UID
+      GID: $UID
+      TYPE: 'PAPER'
+      VERSION: '1.20.1'
+      EULA: 'true'
+
+  matterbridge:
+    image: 42wim/matterbridge:1
+    ports:
+      - '4241:4241'
+    networks:
+      - containers
+    volumes:
+      - ./matterbridge.toml:/etc/matterbridge.toml:ro
+    command: -conf /etc/matterbridge.toml
+
+networks:
+  containers:

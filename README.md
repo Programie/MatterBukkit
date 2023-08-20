@@ -45,3 +45,9 @@ You can build the project in the following 2 steps:
  * Build the jar file using maven: *mvn clean package*
 
 **Note:** JDK 1.8 and Maven is required to build the project!
+
+### Testing
+
+You can start a local test server including a Matterbridge instance using Docker and Docker Compose. For that, use the [docker-compose.yml](docker-dev/docker-compose.yml) from the [docker-dev](docker-dev) folder.
+
+Copy the [MatterBukkit.jar](target/MatterBukkit.jar) to docker-dev/data/plugins and restart the Minecraft container.
