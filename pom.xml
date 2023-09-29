@@ -15,10 +15,10 @@
 
     <name>MatterBukkit</name>
     <description>Send chat messages from/to MatterBridge</description>
-    <url>https://gitlab.com/Programie/MatterBukkit</url>
+    <url>https://github.com/Programie/MatterBukkit</url>
 
     <scm>
-        <developerConnection>scm:git:ssh://git@gitlab.com/Programie/MatterBukkit.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com/Programie/MatterBukkit.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 

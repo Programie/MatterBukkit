@@ -1,0 +1,15 @@
+name: Build package
+
+on: push
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    uses: programie/Workflows/.github/workflows/build-minecraft-plugin.yml@main
+    secrets: inherit
+    with:
+      curseforge_id: 406067
+      modrinth_id: m78oYWqM
+      game_versions: '>= 1.19'
