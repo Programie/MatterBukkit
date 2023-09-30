@@ -28,7 +28,7 @@
 
     <repositories>
         <repository>
-            <id>common-repo</id>
+            <id>github</id>
             <url>https://maven.pkg.github.com/Programie/Common</url>
         </repository>
     </repositories>
