@@ -10,7 +10,7 @@
 
     <groupId>com.selfcoders</groupId>
     <artifactId>matterbukkit</artifactId>
-    <version>1.8-SNAPSHOT</version>
+    <version>1.8.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>MatterBukkit</name>
