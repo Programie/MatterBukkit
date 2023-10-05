@@ -6,7 +6,6 @@ A Minecraft Bukkit plugin which sends chat messages from/to [MatterBridge](https
 [![download from GitHub](https://img.shields.io/badge/download-Releases-blue?logo=github)](https://github.com/Programie/MatterBukkit/releases/latest)
 [![download from Modrinth](https://img.shields.io/badge/download-Modrinth-blue?logo=modrinth)](https://modrinth.com/mod/matterbukkit)
 [![download from CurseForge](https://img.shields.io/badge/download-CurseForge-blue?logo=curseforge)](https://www.curseforge.com/minecraft/bukkit-plugins/matterbukkit)
-[![view on Website](https://img.shields.io/badge/view-Website-blue)](https://selfcoders.com/projects/matterbukkit)
 
 ## Setup
 
@@ -51,3 +50,7 @@ You can build the project in the following 2 steps:
 You can start a local test server including a Matterbridge instance using Docker and Docker Compose. For that, use the [docker-compose.yml](docker-dev/docker-compose.yml) from the [docker-dev](docker-dev) folder.
 
 Copy the [MatterBukkit.jar](target/MatterBukkit.jar) to docker-dev/data/plugins and restart the Minecraft container.
+
+## My other plugins
+
+You can find them on [my website](https://selfcoders.com/projects/minecraft-plugins).
