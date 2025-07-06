@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.8] - 2025-07-06
+
+* Use Websocket connection instead of raw HTTP connection for connection to MatterBridge API (fixes #6)
+
 ## [1.7] - 2023-05-24
 
 * Fixed check whether advancement should be sent to Matterbridge
