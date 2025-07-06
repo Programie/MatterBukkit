@@ -1,50 +1,43 @@
 package com.selfcoders.matterbukkit;
 
-import com.selfcoders.matterbukkit.matterbridgeapi.API;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.net.URISyntaxException;
+
 public class MatterBukkit extends JavaPlugin {
-    private APIMessageReader apiMessageReader = null;
+    private APIClient apiClient = null;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
 
-        ConfigurationSection bridgeConfig = getConfig().getConfigurationSection("bridge");
+        FileConfiguration config = getConfig();
 
-        String url = bridgeConfig.getString("url");
-        String gateway = bridgeConfig.getString("gateway");
-        String token = bridgeConfig.getString("token");
+        String url = config.getString("bridge.url");
+        String gateway = config.getString("bridge.gateway");
+        String token = config.getString("bridge.token");
 
-        String avatarUrl = getConfig().getString("outgoing.avatar-url");
-        String systemAvatarUrl = getConfig().getString("outgoing.system-avatar-url");
-        String systemUsername = getConfig().getString("outgoing.system-username");
+        String avatarUrl = config.getString("outgoing.avatar-url");
+        String systemAvatarUrl = config.getString("outgoing.system-avatar-url");
+        String systemUsername = config.getString("outgoing.system-username");
 
-        API matterBridgeApi = new API(url, gateway, systemUsername, systemAvatarUrl, token);
-
-        getServer().getPluginManager().registerEvents(new EventListener(this, matterBridgeApi, avatarUrl), this);
-
-        if (getConfig().getBoolean("incoming.enable")) {
-            apiMessageReader = new APIMessageReader(matterBridgeApi, this);
-            apiMessageReader.start();
-
-            getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-                if (!apiMessageReader.isRunning()) {
-                    getLogger().info("Restarting API listener");
-
-                    apiMessageReader.restart();
-                }
-            }, 100, 100);
+        try {
+            apiClient = new APIClient(url, gateway, systemUsername, systemAvatarUrl, token, this);
+            apiClient.connect();
+        } catch (URISyntaxException exception) {
+            throw new RuntimeException(exception);
         }
+
+        getServer().getPluginManager().registerEvents(new EventListener(this, apiClient, avatarUrl), this);
 
         getLogger().info("MatterBukkit enabled");
     }
 
     @Override
     public void onDisable() {
-        if (apiMessageReader != null) {
-            apiMessageReader.stop();
+        if (apiClient != null) {
+            apiClient.close();
         }
 
         getLogger().info("MatterBukkit disabled");

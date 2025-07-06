@@ -1,7 +1,5 @@
 package com.selfcoders.matterbukkit;
 
-import com.selfcoders.matterbukkit.matterbridgeapi.API;
-import com.selfcoders.matterbukkit.matterbridgeapi.Message;
 import org.bukkit.ChatColor;
 import org.bukkit.advancement.AdvancementDisplay;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -11,17 +9,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 
-import java.io.IOException;
-import java.util.logging.Level;
-
 class EventListener implements Listener {
     private final MatterBukkit plugin;
-    private final API matterBridgeApi;
+    private final APIClient apiClient;
     private final String avatarUrl;
 
-    EventListener(MatterBukkit plugin, API matterBridgeApi, String avatarUrl) {
+    EventListener(MatterBukkit plugin, APIClient apiClient, String avatarUrl) {
         this.plugin = plugin;
-        this.matterBridgeApi = matterBridgeApi;
+        this.apiClient = apiClient;
         this.avatarUrl = avatarUrl;
     }
 
@@ -36,18 +31,14 @@ class EventListener implements Listener {
             return;
         }
 
-        try {
-            Player player = event.getPlayer();
-            String playerAvatarUrl = avatarUrl;
-            if (playerAvatarUrl != null) {
-                playerAvatarUrl = playerAvatarUrl.replaceAll("%playername%", player.getName());
-                playerAvatarUrl = playerAvatarUrl.replaceAll("%uuid%", player.getUniqueId().toString());
-            }
-
-            matterBridgeApi.sendMessage(new Message(player.getName(), event.getMessage(), playerAvatarUrl));
-        } catch (IOException exception) {
-            plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
+        Player player = event.getPlayer();
+        String playerAvatarUrl = avatarUrl;
+        if (playerAvatarUrl != null) {
+            playerAvatarUrl = playerAvatarUrl.replaceAll("%playername%", player.getName());
+            playerAvatarUrl = playerAvatarUrl.replaceAll("%uuid%", player.getUniqueId().toString());
         }
+
+        apiClient.sendMessage(player.getName(), event.getMessage(), playerAvatarUrl);
     }
 
     @EventHandler
@@ -71,6 +62,8 @@ class EventListener implements Listener {
         } catch (IOException exception) {
             plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
         }
+
+        apiClient.sendMessage(text);
     }
 
     @EventHandler
@@ -96,11 +89,7 @@ class EventListener implements Listener {
         text = text.replaceAll("%playername%", event.getPlayer().getName())
                 .replaceAll("%advancement%", advancementDisplay.getTitle());
 
-        try {
-            matterBridgeApi.sendMessage(text);
-        } catch (IOException exception) {
-            plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
-        }
+        apiClient.sendMessage(text);
     }
 
     @EventHandler
@@ -133,11 +122,7 @@ class EventListener implements Listener {
                 .replaceAll("%old-level%", String.valueOf(oldLevel))
                 .replaceAll("%new-level%", String.valueOf(newLevel));
 
-        try {
-            matterBridgeApi.sendMessage(text);
-        } catch (IOException exception) {
-            plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
-        }
+        apiClient.sendMessage(text);
     }
 
     @EventHandler
@@ -146,11 +131,7 @@ class EventListener implements Listener {
             return;
         }
 
-        try {
-            matterBridgeApi.sendMessage(ChatColor.stripColor(event.getJoinMessage()));
-        } catch (IOException exception) {
-            plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
-        }
+        apiClient.sendMessage(ChatColor.stripColor(event.getJoinMessage()));
     }
 
     @EventHandler
@@ -159,10 +140,6 @@ class EventListener implements Listener {
             return;
         }
 
-        try {
-            matterBridgeApi.sendMessage(ChatColor.stripColor(event.getQuitMessage()));
-        } catch (IOException exception) {
-            plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
-        }
+        apiClient.sendMessage(ChatColor.stripColor(event.getQuitMessage()));
     }
 }

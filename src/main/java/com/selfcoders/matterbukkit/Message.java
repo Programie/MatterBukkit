@@ -1,4 +1,4 @@
-package com.selfcoders.matterbukkit.matterbridgeapi;
+package com.selfcoders.matterbukkit;
 
 public class Message {
     private String event;
