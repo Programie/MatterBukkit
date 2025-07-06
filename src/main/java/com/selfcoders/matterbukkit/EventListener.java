@@ -53,14 +53,17 @@ class EventListener implements Listener {
 
         Player player = event.getEntity();
 
-        text = text.replaceAll("%playername%", player.getName())
-                .replaceAll("%username%", player.getName())
-                .replaceAll("%death-message%", event.getDeathMessage());
+        String deathMessage = event.getDeathMessage();
+        if (deathMessage == null) {
+            deathMessage = player.getName() + " died";
+        }
 
-        try {
-            matterBridgeApi.sendMessage(text);
-        } catch (IOException exception) {
-            plugin.getLogger().log(Level.SEVERE, exception.toString(), exception);
+        if (text == null) {
+            text = deathMessage;
+        } else {
+            text = text.replaceAll("%playername%", player.getName())
+                    .replaceAll("%username%", player.getName())
+                    .replaceAll("%death-message%", deathMessage);
         }
 
         apiClient.sendMessage(text);
@@ -85,6 +88,9 @@ class EventListener implements Listener {
         }
 
         String text = config.getString("outgoing.advancement.format");
+        if (text == null) {
+            text = "%playername% has made the advancement [%advancement%]";
+        }
 
         text = text.replaceAll("%playername%", event.getPlayer().getName())
                 .replaceAll("%advancement%", advancementDisplay.getTitle());
@@ -117,6 +123,9 @@ class EventListener implements Listener {
         }
 
         String text = config.getString("outgoing.level-up.format");
+        if (text == null) {
+            text = "%playername% reached level %new-level%";
+        }
 
         text = text.replaceAll("%playername%", event.getPlayer().getName())
                 .replaceAll("%old-level%", String.valueOf(oldLevel))
