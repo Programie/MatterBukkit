@@ -9,7 +9,7 @@ A Minecraft Bukkit plugin which sends chat messages from/to [MatterBridge](https
 
 ## Setup
 
-First, install the plugin onto your Bukkit/Spigot/Paper server, and start it to generate [`config.yml`](https://gitlab.com/Programie/MatterBukkit/-/blob/master/src/main/resources/config.yml). Then, configure it:
+First, install the plugin onto your Bukkit/Spigot/Paper server, and start it to generate [`config.yml`](src/main/resources/config.yml). Then, configure it:
 
 - Set [`url`](src/main/resources/config.yml#L3) to the URL where you're running MatterBridge, with port 4242 or whatever you'd like to use (if you're running it on the same server, you can use `http://localhost:4242`).
 - Set [`gateway`](src/main/resources/config.yml#L6) to the name of your MatterBridge gateway.
@@ -47,9 +47,9 @@ You can build the project in the following 2 steps:
 
 ### Testing
 
-You can start a local test server including a Matterbridge instance using Docker and Docker Compose. For that, use the [docker-compose.yml](docker-dev/docker-compose.yml) from the [docker-dev](docker-dev) folder.
+You can start a local test server including a MatterBridge instance using Docker and Docker Compose. For that, use the [docker-compose.yml](docker-dev/docker-compose.yml) from the [docker-dev](docker-dev) folder.
 
-Copy the [MatterBukkit.jar](target/MatterBukkit.jar) to docker-dev/data/plugins and restart the Minecraft container.
+Copy the target/MatterBukkit.jar to docker-dev/data/plugins and restart the Minecraft container.
 
 ## My other plugins
 
