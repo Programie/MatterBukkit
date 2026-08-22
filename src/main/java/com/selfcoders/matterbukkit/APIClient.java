@@ -11,6 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public class APIClient {
@@ -97,6 +98,11 @@ public class APIClient {
 
         // Skip messages with an empty text property (e.g. in case a picture or file has been sent)
         if (message.getText().isEmpty()) {
+            return;
+        }
+
+        // Check the gateway of received messages so we don't bridge messages from other gateways
+        if (!Objects.equals(message.getGateway(), gateway)) {
             return;
         }
 
