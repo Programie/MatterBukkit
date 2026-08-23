@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.9] - 2026-08-23
+
+* Check incoming message gateway to prevent showing messages for non-configured gateways (thanks to @OptimisticDeving)
+
 ## [1.8] - 2025-07-06
 
 * Use Websocket connection instead of raw HTTP connection for connection to MatterBridge API (fixes #6)
