@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.9] - 2026-08-23
+## [1.9.0] - 2026-08-23
 
 * Check incoming message gateway to prevent showing messages for non-configured gateways (thanks to @OptimisticDeving)
 
