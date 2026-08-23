@@ -5,11 +5,13 @@ public class Message {
     private String text;
     private String username;
     private String avatar;
+    private String gateway;
 
-    public Message(String username, String text, String avatar) {
+    public Message(String username, String text, String avatar, String gateway) {
         this.username = username;
         this.text = text;
         this.avatar = avatar;
+        this.gateway = gateway;
     }
 
     public String getEvent() {
@@ -26,5 +28,9 @@ public class Message {
 
     public String getAvatar() {
         return avatar;
+    }
+
+    public String getGateway() {
+        return gateway;
     }
 }
